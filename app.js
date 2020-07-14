@@ -74,7 +74,7 @@ function onConnect(socket){
 
 app.get('/test', (req, res) => {
   console.log('Test Success');
-  res.send("TestEndPoint, Dive for some other thing")
+  res.send("TestEndPoint, Dive for some other thing");
 })
 
 // handle logout
@@ -90,7 +90,7 @@ disconnectUser = function(socketId){
 
 // write it at the end
 // instead of app.listen, using server.listen
-let port = process.env.port || 3001;
+let port = process.env.port || 3005;
 server.listen(port, () => {
     console.log(`Listening on Port ${port}`);
 });
