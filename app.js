@@ -18,7 +18,9 @@ const io = socketio(server);
 const botName = 'admin';
 
 // listen for events
-io.on('connection', socket => {
+io.on('connection', onConnect);
+
+function onConnect(socket){
     
     console.log("New client connected: " + socket.id);
     //console.log("Query: ", socket.handshake.query);
@@ -34,8 +36,8 @@ io.on('connection', socket => {
     socket.join(user.room);
 
     // inform other user, Broadcast when a user connects
-    socket.broadcast
-        .to(user.room)
+    console.log(`Sending Message To All Users As ${user.username} joined`);
+    socket.to(user.room)
         .emit(
             'message',
             formatMessage(botName, `${user.username} has joined the chat`)
@@ -43,13 +45,15 @@ io.on('connection', socket => {
 
     // broadcasting user message
     socket.on('chatMessage', msg => {
+        console.log(`Sending Chat Message to All receiver from ${user.username}`);
         io.to(user.room).emit('message', formatMessage(`${user.username}`, msg));    
     });
 
     // handle user left
     socket.on('disconnect', () => {
-        //const user = userLeave(socket.id);
-    
+        // const user = userLeave(socket.id);
+        
+        console.log(`Sending Disconnect Message As ${user.username} disconnected`);
         //if (user) {
           io.to(user.room).emit(
             'message',
@@ -57,7 +61,18 @@ io.on('connection', socket => {
           );
         //}
       });
+}
+
+// handle logout
+app.get("/logout", function(req,res){
+  //do other logging out stuff
+  disconnectUser(req.query.socketId);
+  res.send("Logout successful");
 });
+
+disconnectUser = function(socketId){
+  io.sockets.connected[socketId].disconnect();
+}
 
 // write it at the end
 // instead of app.listen, using server.listen
