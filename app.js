@@ -90,7 +90,6 @@ disconnectUser = function(socketId){
 
 // write it at the end
 // instead of app.listen, using server.listen
-let port = process.env.port || 3005;
-server.listen(port, () => {
-    console.log(`Listening on Port ${port}`);
+app.listen(process.env.PORT || 3005, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
