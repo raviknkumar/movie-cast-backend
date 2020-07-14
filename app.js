@@ -72,6 +72,11 @@ function onConnect(socket){
       });
 }
 
+app.get('/test', (req, res) => {
+  console.log('Test Success');
+  res.send("TestEndPoint, Dive for some other thing")
+})
+
 // handle logout
 app.get("/logout", function(req,res){
   //do other logging out stuff
