@@ -39,7 +39,7 @@ function onConnect(socket){
     const user = userJoin(socket.id, username, room);
     
     // greet current user
-    socket.emit('message', formatMessage('Admin', `Hi ${user.username} Welcome to the app!`));
+    socket.emit('message', formatMessage(botName, `Hi ${user.username} Welcome to the app!`));
 
     // join to specific room
     socket.join(user.room);
@@ -91,6 +91,6 @@ disconnectUser = function(socketId){
 // write it at the end
 // instead of app.listen, using server.listen
 
-server.listen(process.env.PORT || 3005, function(){
+server.listen(process.env.PORT || 3001, function(){
   console.log(`Express server listening on port ${this.address().port} in ${app.settings.env} mode`);
 });
